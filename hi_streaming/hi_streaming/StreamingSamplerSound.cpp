@@ -548,8 +548,8 @@ void StreamingSamplerSound::loopChanged()
 
 			loopBuffer.burnNormalisation();
 
-			loopBuffer.applyGainRamp(0, 0, (int)crossfadeLength, 0.0f, 1.0f);
-			loopBuffer.applyGainRamp(1, 0, (int)crossfadeLength, 0.0f, 1.0f);
+			//loopBuffer.applyGainRamp(0, 0, (int)crossfadeLength, 0.0f, 1.0f); removed default linear fade
+			//loopBuffer.applyGainRamp(1, 0, (int)crossfadeLength, 0.0f, 1.0f); removed default linear fade
 
 			// Calculate the fade out
 			tempBuffer.clear();
@@ -559,8 +559,23 @@ void StreamingSamplerSound::loopChanged()
 			fileReader.readFromDisk(tempBuffer, 0, (int)crossfadeLength, endCrossfade + monolithOffset, false);
 
 			tempBuffer.burnNormalisation();
-			tempBuffer.applyGainRamp(0, 0, (int)crossfadeLength, 1.0f, 0.0f);
-			tempBuffer.applyGainRamp(1, 0, (int)crossfadeLength, 1.0f, 0.0f);
+			//tempBuffer.applyGainRamp(0, 0, (int)crossfadeLength, 1.0f, 0.0f); removed default linear fade
+			//tempBuffer.applyGainRamp(1, 0, (int)crossfadeLength, 1.0f, 0.0f); removed default linear fade
+
+			// Log looping - simple equal power crossfade for in and out, based on the length of the loop crossfade
+			for (int i = 0; i < (int)crossfadeLength; i++)
+			{
+				auto fadeIn = (std::sin(MathConstants<float>::halfPi * i / crossfadeLength));
+				auto fadeOut = (std::cos(MathConstants<float>::halfPi * i / crossfadeLength));
+
+				// In buffer
+				loopBuffer.applyGain(0, i, 1, fadeIn);
+				loopBuffer.applyGain(1, i, 1, fadeIn);
+
+				// Out buffer
+				tempBuffer.applyGain(0, i, 1, fadeOut);
+				tempBuffer.applyGain(1, i, 1, fadeOut);
+			}
 			
 			hlac::HiseSampleBuffer::add(loopBuffer, tempBuffer, 0, 0, crossfadeLength);
 

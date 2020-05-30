@@ -492,6 +492,23 @@ void HiseSampleBuffer::applyGainRamp(int channelIndex, int startOffset, int ramp
 	}
 }
 
+// *** adding the applyGain method for use with WAV, with a bit of a custom method of applyGainRamp to HISE codec *** //
+void HiseSampleBuffer::applyGain(int channelIndex, int startOffset, int numSamples, float gain)
+{
+	if (isFloatingPoint())
+	{
+		floatBuffer.applyGain(channelIndex, startOffset, numSamples, gain);
+	}
+	else
+	{
+		if (channelIndex == 0)
+			leftIntBuffer.applyGainRamp(startOffset, 1.0f, gain, gain); //applyGainRamp in single sample mode
+
+		if (channelIndex == 1 && hasSecondChannel())
+			rightIntBuffer.applyGainRamp(startOffset, 1.0f, gain, gain);
+	}
+}
+
 AudioSampleBuffer* HiseSampleBuffer::getFloatBufferForFileReader()
 {
 	jassert(isFloatingPoint());

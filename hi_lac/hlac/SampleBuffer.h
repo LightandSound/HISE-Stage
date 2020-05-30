@@ -335,6 +335,8 @@ public:
 
 	void applyGainRamp(int channelIndex, int startOffset, int rampLength, float startGain, float endGain);
 
+	void applyGain(int channelIndex, int startOffset, int numSamples, float Gain); // applyGain used for log looping
+
 	/** Returns the internal AudioSampleBuffer for convenient usage with AudioFormatReader classes. */
 	AudioSampleBuffer* getFloatBufferForFileReader();
 
