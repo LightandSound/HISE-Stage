@@ -142,7 +142,7 @@ public:
 								break;
 
 		case VelocityLowHigh:	data.lowVelocity = value;
-								data.hiVelocity = jmin(127, value + 1);
+								data.hiVelocity = jmin(127, value);
 								break;
         case LowVelocity:       data.lowVelocity = value;
                                 break;
