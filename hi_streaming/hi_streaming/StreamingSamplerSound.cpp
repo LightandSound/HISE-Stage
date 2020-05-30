@@ -565,8 +565,8 @@ void StreamingSamplerSound::loopChanged()
 			// Log looping - simple equal power crossfade for in and out, based on the length of the loop crossfade
 			for (int i = 0; i < (int)crossfadeLength; i++)
 			{
-				auto fadeIn = (std::sin(MathConstants<float>::halfPi * i / crossfadeLength));
-				auto fadeOut = (std::cos(MathConstants<float>::halfPi * i / crossfadeLength));
+				auto fadeIn = (sin(MathConstants<float>::halfPi * i / crossfadeLength));
+				auto fadeOut = (cos(MathConstants<float>::halfPi * i / crossfadeLength));
 
 				// In buffer
 				loopBuffer.applyGain(0, i, 1, fadeIn);
