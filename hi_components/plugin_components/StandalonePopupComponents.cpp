@@ -563,7 +563,7 @@ void CustomSettingsWindow::paint(Graphics& g)
 		g.setFont(font);
 		g.drawText("Sample Location:", 15, y, getWidth() - 30, 30, Justification::centredTop);
 
-		g.setFont(GLOBAL_FONT());
+		g.setFont(font); // updated to global font
 		g.drawText(samplePath, 10, y, getWidth() - 20, 30, Justification::centredBottom);
 
 		y += 80;
