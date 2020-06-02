@@ -187,6 +187,7 @@ private:
 	Array<var> scaleFactorList;
 
 	BlackTextButtonLookAndFeel blaf;
+	CustomSettingsComboBoxLookandFeel cscblaf;
 
 	MainController* mc;
 

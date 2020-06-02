@@ -1641,4 +1641,29 @@ private:
 	Image unticked;
 };
 
+class CustomSettingsComboBoxLookandFeel : public LookAndFeel_V4
+{
+public:
+	Font getComboBoxFont(ComboBox& /*box*/) override
+	{
+		return Font("Times New Roman", "Italic", 15.f);
+	}
+
+	Font getPopupMenuFont() override
+	{
+		return Font("Times New Roman", "Italic", 15.f);
+	}
+
+	CustomSettingsComboBoxLookandFeel()
+	{
+		setColour(PopupMenu::highlightedBackgroundColourId, Colour(0x50000000));
+
+		setColour(PopupMenu::backgroundColourId, Colour(0xFF121212));
+		setColour(PopupMenu::textColourId, Colour(0xFFFFFFFF));
+
+		setColour(ComboBox::backgroundColourId, Colour(0x00FFFFFF));
+		setColour(ComboBox::textColourId, Colour(0xFFFFFFFF));
+	}
+};
+
 } // namespace hise

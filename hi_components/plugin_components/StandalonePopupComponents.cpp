@@ -144,15 +144,15 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
     bufferSelector->addListener(this);
     sampleRateSelector->addListener(this);
         
-    deviceSelector->setLookAndFeel(&plaf);
-    soundCardSelector->setLookAndFeel(&plaf);
-    outputSelector->setLookAndFeel(&plaf);
-    bufferSelector->setLookAndFeel(&plaf);
-    sampleRateSelector->setLookAndFeel(&plaf);
+    deviceSelector->setLookAndFeel(&cscblaf);
+    soundCardSelector->setLookAndFeel(&cscblaf);
+    outputSelector->setLookAndFeel(&cscblaf);
+    bufferSelector->setLookAndFeel(&cscblaf);
+    sampleRateSelector->setLookAndFeel(&cscblaf);
     
 	addAndMakeVisible(bpmSelector = new ComboBox("Global BPM"));
 	bpmSelector->addListener(this);
-	bpmSelector->setLookAndFeel(&plaf);
+	bpmSelector->setLookAndFeel(&cscblaf);
 
 	addAndMakeVisible(openGLSelector = new ComboBox("Open GL"));
 	addAndMakeVisible(scaleFactorSelector = new ComboBox("Scale Factor"));
@@ -170,10 +170,10 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 	openGLSelector->addListener(this);
 
 	voiceAmountMultiplier->addListener(this);
-	voiceAmountMultiplier->setLookAndFeel(&plaf);
+	voiceAmountMultiplier->setLookAndFeel(&cscblaf);
 
-	scaleFactorSelector->setLookAndFeel(&plaf);
-	diskModeSelector->setLookAndFeel(&plaf);
+	scaleFactorSelector->setLookAndFeel(&cscblaf);
+	diskModeSelector->setLookAndFeel(&cscblaf);
 	clearMidiLearn->setLookAndFeel(&blaf);
 	
 	debugButton->setLookAndFeel(&blaf);
