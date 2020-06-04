@@ -424,8 +424,7 @@ public:
 
 			if (editor != nullptr)
 			{
-				editor->setBounds(0, 0, editor->getWidth(), editor->getHeight());
-				editor->setScaleFactor((((float)getWidth() / 870.0f)) / 2);
+				//editor->setBounds(0, 0, editor->getWidth(), editor->getHeight());
 			}
 		}
 

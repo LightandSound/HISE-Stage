@@ -442,7 +442,7 @@ void FrontendStandaloneApplication::AudioWrapper::init()
 #else
 	float sf = standaloneProcessor->getScaleFactor();
 
-	int newWidth = (int)((float)editor->getWidth() * sf);
+	int newWidth = (int)((float)editor->getWidth()*sf);
 	int newHeight = (int)((float)editor->getHeight() * sf);
 
 	setSize(newWidth, newHeight);
@@ -507,13 +507,7 @@ FrontendStandaloneApplication::MainWindow::MainWindow(String name) : DocumentWin
 
 	centreWithSize(getWidth(), getHeight());
 	
-	// Fixed aspect ratio, resizable
-	setResizable(true, true);
-
-	double ratio = 4.0 / 3.0;
-	setResizeLimits(400, 400 / ratio, 3000, 3000 / ratio);
-	getConstrainer()->setFixedAspectRatio(ratio);
-	setSize(800.0, 800.0 / ratio);
+	setResizable(false, false);
 
 	setVisible(true);
 }

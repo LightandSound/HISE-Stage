@@ -236,15 +236,29 @@ void FrontendProcessorEditor::resized()
 {
 	LOG_START("Resizing interface");
 
+	// Fixed aspect ratio, resizable
+	setResizable(true, true);
+	setResizeLimits(100, 100, 5000, 5000);
+
+	auto pC = getParentComponent();
+
+	if (pC != nullptr)
+	{
+		double ratio = originalSizeY / originalSizeX;
+		getConstrainer()->setFixedAspectRatio(ratio); // don't activate this prior to the parent component being created
+		setGlobalScaleFactor((float)getWidth() / originalSizeX);
+		pC->setSize(getWidth(), getHeight());
+	}
+
 #if HISE_IOS
 	int width = originalSizeX != 0 ? originalSizeX : getWidth();
     int height = originalSizeY != 0 ? originalSizeY : getHeight();
 #else
-	int width = (int)((double)getWidth() / scaleFactor);
-	int height = (int)((double)getHeight() / scaleFactor);
+	int width = (int)(getWidth() / scaleFactor);
+	int height = (int)(getWidth() / scaleFactor);
 #endif
 
-    container->setBounds(0, 0, width, height);
+	container->setBounds(0, 0, width, height);
 	getContentComponent()->setBounds(0, 0, width, height);
     deactiveOverlay->setBounds(0, 0, width, height);
 	loaderOverlay->setBounds(0, 0, width, height);
