@@ -422,8 +422,11 @@ public:
 			if (splashScreen != nullptr)
 				splashScreen->setBounds(getLocalBounds());
 
-			if(editor != nullptr)
+			if (editor != nullptr)
+			{
 				editor->setBounds(0, 0, editor->getWidth(), editor->getHeight());
+				editor->setScaleFactor((((float)getWidth() / 870.0f)) / 2);
+			}
 		}
 
 	private:
