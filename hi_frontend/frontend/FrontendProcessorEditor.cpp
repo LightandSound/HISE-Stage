@@ -242,14 +242,6 @@ void FrontendProcessorEditor::resized()
 
 	auto pC = getParentComponent();
 
-	if (pC != nullptr)
-	{
-		double ratio = originalSizeY / originalSizeX;
-		getConstrainer()->setFixedAspectRatio(ratio); // don't activate this prior to the parent component being created
-		setGlobalScaleFactor((float)getWidth() / originalSizeX);
-		pC->setSize(getWidth(), getHeight());
-	}
-
 #if HISE_IOS
 	int width = originalSizeX != 0 ? originalSizeX : getWidth();
     int height = originalSizeY != 0 ? originalSizeY : getHeight();
@@ -257,6 +249,13 @@ void FrontendProcessorEditor::resized()
 	int width = (int)(getWidth() / scaleFactor);
 	int height = (int)(getWidth() / scaleFactor);
 #endif
+
+	if (pC != nullptr)
+	{
+		float sF = (float)getWidth() / originalSizeX;
+		setGlobalScaleFactor(sF);
+		setSize(pC->getWidth(), pC->getHeight()); // safety net for ranges outside globalscalefactor
+	}
 
 	container->setBounds(0, 0, width, height);
 	getContentComponent()->setBounds(0, 0, width, height);
