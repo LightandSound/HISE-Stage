@@ -166,7 +166,7 @@ AudioProcessorEditor(fp)
 	}
 	else
 	{
-        setGlobalScaleFactor((float)fp->getGlobalScaleFactor());
+        //setGlobalScaleFactor((float)fp->getGlobalScaleFactor());
 	}
 #endif
         
@@ -254,7 +254,7 @@ void FrontendProcessorEditor::resized()
 	{
 		float sF = (float)getWidth() / originalSizeX;
 		setGlobalScaleFactor(sF);
-		setSize(pC->getWidth(), pC->getHeight()); // safety net for ranges outside globalscalefactor
+		pC->setSize(getWidth(), getHeight()); // ensure this is updated in plugin mode
 	}
 
 	container->setBounds(0, 0, width, height);
