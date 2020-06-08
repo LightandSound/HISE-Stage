@@ -238,9 +238,16 @@ void FrontendProcessorEditor::resized()
 
 	// Fixed aspect ratio, resizable
 	setResizable(true, true);
-	setResizeLimits(100, 100, 5000, 5000);
 
 	auto pC = getParentComponent();
+	float sF;
+
+	if (pC != nullptr)
+	{
+		sF = (float)getWidth() / originalSizeX;
+		setGlobalScaleFactor(sF);
+		setResizeLimits(originalSizeX / 2, originalSizeY * sF, originalSizeX * 2, originalSizeY * sF); // lock the height
+	}
 
 #if HISE_IOS
 	int width = originalSizeX != 0 ? originalSizeX : getWidth();
@@ -249,13 +256,6 @@ void FrontendProcessorEditor::resized()
 	int width = (int)(getWidth() / scaleFactor);
 	int height = (int)(getWidth() / scaleFactor);
 #endif
-
-	if (pC != nullptr)
-	{
-		float sF = (float)getWidth() / originalSizeX;
-		setGlobalScaleFactor(sF);
-		pC->setSize(getWidth(), getHeight()); // ensure this is updated in plugin mode
-	}
 
 	container->setBounds(0, 0, width, height);
 	getContentComponent()->setBounds(0, 0, width, height);
