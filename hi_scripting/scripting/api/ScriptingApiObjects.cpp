@@ -3180,8 +3180,25 @@ void ScriptingObjects::GraphicsObject::setGradientFill(var gradientData)
 
 			drawActionHandler.addDrawAction(new ScriptedDrawActions::setGradientFill(grad));
 		}
-		else
+		else if(gradientData.getArray()->size() < 6)
+		{
 			reportScriptError("Gradient Data must have six elements");
+		}
+		else
+		{
+			auto c1 = ScriptingApi::Content::Helpers::getCleanedObjectColour(data->getUnchecked(0));
+			auto c2 = ScriptingApi::Content::Helpers::getCleanedObjectColour(data->getUnchecked(3));
+			auto c3 = ScriptingApi::Content::Helpers::getCleanedObjectColour(data->getUnchecked(6));
+
+			auto grad = ColourGradient(c1, (float)data->getUnchecked(1), (float)data->getUnchecked(2),
+				c2, (float)data->getUnchecked(4), (float)data->getUnchecked(5), (float)data->getUnchecked(8));
+
+			grad.addColour((float)data->getUnchecked(7), c3); // mid point area and colour
+
+			// usage: setGradientFill(Colour, x1, y1, Colour2, x2, y2, Colour3, proportion, false/true for radial)
+
+			drawActionHandler.addDrawAction(new ScriptedDrawActions::setGradientFill(grad));
+		}
 	}
 	else
 		reportScriptError("Gradient Data is not sufficient");
