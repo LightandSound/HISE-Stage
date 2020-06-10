@@ -74,6 +74,7 @@ const var data = {
 "SustainCC": false,
 "ClearMidiCC": true,
 "SampleLocation": true,
+"DownloadSamples": true,
 "DebugMode": true,
 "ScaleFactorList": [0.5, 1, 2]
 };
@@ -100,6 +101,7 @@ public:
 		VoiceAmount, ///< the voice limit per sound generator.
 		ClearMidiCC, ///< a button that clears all MIDI CC mappings
 		SampleLocation, ///< shows the location of the sample folder and a button to relocate
+		DownloadSamples, // Sample Downloader Button
 		DebugMode, ///< enables Debug mode which creates a useful log file for bug chasing
 		ScaleFactorList, ///< an array containing all available zoom factors (eg. `[0.5, 1.5, 1.25]` for 50%, 100%, 125%)
 		numProperties

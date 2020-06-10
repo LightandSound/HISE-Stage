@@ -122,6 +122,7 @@ public:
 		VoiceAmountMultiplier, ///< the max voice amount per sound generator
 		ClearMidiCC, /// removes all MIDI learn information
 		SampleLocation, /// shows the sample location
+		DownloadSamples, // Sample Downloader Button
 		DebugMode, /// toggles the Debug mode
 		ScaleFactorList, ///< the list of scale factors as Array<var> containing doubles.
 		UseOpenGL,
@@ -203,6 +204,7 @@ private:
 	ScopedPointer<ComboBox> openGLSelector;
 	ScopedPointer<TextButton> clearMidiLearn;
 	ScopedPointer<TextButton> relocateButton;
+	ScopedPointer<TextButton> downloadSamplesButton;
 	ScopedPointer<TextButton> debugButton;
 	
     // Not the smartest solution, but works...

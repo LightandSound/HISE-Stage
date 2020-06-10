@@ -80,6 +80,7 @@ var CustomSettingsWindowPanel::toDynamicObject() const
 	SET(CustomSettingsWindow::Properties::VoiceAmountMultiplier);
 	SET(CustomSettingsWindow::Properties::ClearMidiCC);
 	SET(CustomSettingsWindow::Properties::SampleLocation);
+	SET(CustomSettingsWindow::Properties::DownloadSamples);
 	SET(CustomSettingsWindow::Properties::DebugMode);
 
 	storePropertyInObject(obj, (int)CustomSettingsWindow::Properties::ScaleFactorList, var(window->scaleFactorList));
@@ -106,6 +107,7 @@ void CustomSettingsWindowPanel::fromDynamicObject(const var& object)
 	SET(CustomSettingsWindow::Properties::VoiceAmountMultiplier);
 	SET(CustomSettingsWindow::Properties::ClearMidiCC);
 	SET(CustomSettingsWindow::Properties::SampleLocation);
+	SET(CustomSettingsWindow::Properties::DownloadSamples);
 	SET(CustomSettingsWindow::Properties::DebugMode);
 
 	window->refreshSizeFromProperties();
@@ -150,6 +152,7 @@ Identifier CustomSettingsWindowPanel::getDefaultablePropertyId(int index) const
 	SET(CustomSettingsWindow::Properties::VoiceAmountMultiplier);
 	SET(CustomSettingsWindow::Properties::ClearMidiCC);
 	SET(CustomSettingsWindow::Properties::SampleLocation);
+	SET(CustomSettingsWindow::Properties::DownloadSamples);
 	SET(CustomSettingsWindow::Properties::DebugMode);
 	SET(CustomSettingsWindow::Properties::ScaleFactorList);
 
@@ -177,6 +180,7 @@ var CustomSettingsWindowPanel::getDefaultProperty(int index) const
 	SET(CustomSettingsWindow::Properties::VoiceAmountMultiplier);
 	SET(CustomSettingsWindow::Properties::ClearMidiCC);
 	SET(CustomSettingsWindow::Properties::SampleLocation);
+	SET(CustomSettingsWindow::Properties::DownloadSamples);
 	SET(CustomSettingsWindow::Properties::DebugMode);
 
 	if (index == (int)CustomSettingsWindow::Properties::ScaleFactorList) return var({ var(0.5), var(0.75), var(1.0), var(1.25), var(1.5), var(2.0) });
