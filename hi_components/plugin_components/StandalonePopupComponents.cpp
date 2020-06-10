@@ -158,8 +158,8 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 	addAndMakeVisible(scaleFactorSelector = new ComboBox("Scale Factor"));
 	addAndMakeVisible(diskModeSelector = new ComboBox("Hard Disk"));
 	addAndMakeVisible(voiceAmountMultiplier = new ComboBox("Voice Amount"));
-	addAndMakeVisible(clearMidiLearn = new TextButton("Clear MIDI CC"));
-	addAndMakeVisible(relocateButton = new TextButton("Change sample folder location"));
+	addAndMakeVisible(clearMidiLearn = new TextButton("Reset Midi Learn"));
+	addAndMakeVisible(relocateButton = new TextButton("Locate Samples"));
 	addAndMakeVisible(debugButton = new TextButton("Toggle Debug Mode"));
 
 	scaleFactorSelector->addListener(this);

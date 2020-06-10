@@ -1616,10 +1616,11 @@ public:
 	void drawButtonBackground(Graphics& g, Button& button, const Colour& /*backgroundColour*/,
 		bool /*isMouseOverButton*/, bool isButtonDown)
 	{
-		g.setGradientFill(ColourGradient(Colours::white.withAlpha(isButtonDown ? 0.4f : 0.2f), 0.0f, 0.0f,
-			Colours::white.withAlpha(0.1f), 0.0f, (float)button.getHeight(), false));
-
+		g.setColour(isButtonDown ? Colour(0x30FFFFFF) : Colour(0x00000000));
 		g.fillRoundedRectangle(0.0f, 0.0f, (float)button.getWidth(), (float)button.getHeight(), 4.0f);
+
+		g.setColour(Colour(0xFFFFFFFF));
+		g.drawRoundedRectangle(0.0f, 0.0f, (float)button.getWidth(), (float)button.getHeight(), 4.0f, 1.0f);
 	}
 
 	void drawToggleButton(Graphics &g, ToggleButton &b, bool isMouseOverButton, bool);
@@ -1627,7 +1628,7 @@ public:
 	void drawButtonText(Graphics& g, TextButton& b, bool , bool ) override
 	{
 		g.setColour(Colours::white);
-		g.setFont(f);
+		g.setFont(Font("Times New Roman", "Italic", 15.f));
 		g.drawText(b.getButtonText(), b.getLocalBounds().toFloat(), Justification::centred);
 	}
 
@@ -1656,7 +1657,7 @@ public:
 
 	CustomSettingsComboBoxLookandFeel()
 	{
-		setColour(PopupMenu::highlightedBackgroundColourId, Colour(0x50000000));
+		setColour(PopupMenu::highlightedBackgroundColourId, Colour(0x30FFFFFF));
 
 		setColour(PopupMenu::backgroundColourId, Colour(0xFF121212));
 		setColour(PopupMenu::textColourId, Colour(0xFFFFFFFF));
