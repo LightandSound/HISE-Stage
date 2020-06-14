@@ -36,6 +36,97 @@
 
 namespace hise { using namespace juce;
 
+class FileDownloader : public ThreadWithProgressWindow
+{
+public:
+	FileDownloader() : ThreadWithProgressWindow("Downloading...", true, true)
+	{
+		// Sample download locations
+		sampleUrls.add(new URL("https://www.lightandsoundsamples.com/assets/images/lightandsoundpianowhite-4146x1567.jpg"));
+		sampleUrls.add(new URL("https://www.lightandsoundsamples.com/assets/images/retail-boxtransparency-piano2-1466x825.png"));
+		sampleUrls.add(new URL("https://speed.hetzner.de/100MB.bin"));
+	}
+
+	void run()
+	{
+		// Download all the things
+		for (auto i = 0; i < sampleUrls.size(); i++)
+		{
+			setProgress(0.0); // reset progress
+			InputStream *in = sampleUrls[i]->createInputStream(false);
+
+			if (in != nullptr)
+			{
+				setStatusMessage("Downloading " + std::to_string(i) + " out of " + std::to_string(sampleUrls.size()));
+
+				File newFile = File::getCurrentWorkingDirectory();
+
+				FileOutputStream os(newFile.getChildFile(sampleUrls[i]->getFileName()));
+
+				size = in->getTotalLength();
+
+				int totalBytes = 0;
+				do
+				{
+					if (threadShouldExit())
+						break;
+
+					MemoryBlock mb;
+					int numBytes = in->readIntoMemoryBlock(mb, 1024);
+					progress = size - in->getNumBytesRemaining();
+					if (numBytes > 0)
+					{
+						setProgress(progress / size);
+						totalBytes += numBytes;
+						os.write(mb.getData(), mb.getSize());
+					}
+					else
+					{
+						progress = 0;
+						break;
+					}
+				} while (true);
+			}
+			else
+				setStatusMessage("Unable to connect to server");
+		}
+		setProgress(1.0);
+	}
+
+	void FileDownloader::fileDownloader()
+	{
+		FileChooser fc{ "Select a Download Location" };
+
+		if (fc.browseForDirectory())
+		{
+			folder = fc.getResult();
+
+			if (folder.isDirectory())
+			{
+				folder.setAsCurrentWorkingDirectory();
+
+				if (runThread())
+				{
+				}
+				else
+				{
+				}
+			}
+		}
+	}
+
+private:
+	double progress = 0;
+	double size;
+
+	File folder;
+
+	// Array of URLs
+	OwnedArray <URL, CriticalSection> sampleUrls;
+
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FileDownloader)
+};
+
 class ToggleButtonList : public Component,
 	public ButtonListener,
 	public Timer
@@ -191,6 +282,7 @@ private:
 	CustomSettingsComboBoxLookandFeel cscblaf;
 
 	MainController* mc;
+	FileDownloader fd;
 
 	ScopedPointer<ComboBox> deviceSelector;
 	ScopedPointer<ComboBox> soundCardSelector;

@@ -433,37 +433,7 @@ void CustomSettingsWindow::buttonClicked(Button* b)
 	}
 	else if (b == downloadSamplesButton)
 	{
-		FileChooser fc("Select folder to download samples to");
-
-		if (fc.browseForDirectory())
-		{
-			File fileLocation = fc.getResult();
-
-			if (fileLocation.isDirectory())
-			{
-				URL url("https://www.lightandsoundsamples.com/assets/images/lightandsoundpianowhite-4146x1567.jpg");
-				InputStream *in = url.createInputStream(false);
-
-				FileOutputStream os(fileLocation.getChildFile(url.getFileName()));
-
-				int totalBytes = 0;
-				do
-				{
-					MemoryBlock mb;
-					int numBytes = in->readIntoMemoryBlock(mb, 1024);
-					if (numBytes > 0)
-					{
-						totalBytes += numBytes;
-						os.write(mb.getData(), mb.getSize());
-					}
-					else
-						break;
-				} while (true);
-			}
-		}
-
-		
-		// download the samples
+		fd.fileDownloader();
 	}
 }
 
