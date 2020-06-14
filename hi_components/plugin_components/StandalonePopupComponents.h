@@ -105,6 +105,8 @@ public:
 
 			if (folder.isDirectory())
 			{
+				FrontendHandler::setSampleLocation(folder); // also set the location to this folder
+
 				folder.setAsCurrentWorkingDirectory();
 
 				if (runThread())
