@@ -45,6 +45,8 @@ public:
 		sampleUrls.add(new URL("https://www.lightandsoundsamples.com/assets/images/lightandsoundpianowhite-4146x1567.jpg"));
 		sampleUrls.add(new URL("https://www.lightandsoundsamples.com/assets/images/retail-boxtransparency-piano2-1466x825.png"));
 		sampleUrls.add(new URL("https://speed.hetzner.de/100MB.bin"));
+
+		getAlertWindow()->setLookAndFeel(&fdlaf);
 	}
 
 	void run()
@@ -57,7 +59,7 @@ public:
 
 			if (in != nullptr)
 			{
-				setStatusMessage("Downloading " + std::to_string(i) + " out of " + std::to_string(sampleUrls.size()));
+				setStatusMessage("Downloading " + std::to_string(i) + " out of " + std::to_string(sampleUrls.size()) + " files");
 
 				File newFile = File::getCurrentWorkingDirectory();
 
@@ -120,6 +122,7 @@ private:
 	double size;
 
 	File folder;
+	FileDownloaderLookandFeel fdlaf;
 
 	// Array of URLs
 	OwnedArray <URL, CriticalSection> sampleUrls;

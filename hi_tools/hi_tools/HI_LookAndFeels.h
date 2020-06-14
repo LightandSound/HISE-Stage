@@ -1619,7 +1619,7 @@ public:
 		g.setColour(isButtonDown ? Colour(0x30FFFFFF) : Colour(0x00000000));
 		g.fillRoundedRectangle(0.0f, 0.0f, (float)button.getWidth(), (float)button.getHeight(), 4.0f);
 
-		g.setColour(Colour(0xFFFFFFFF));
+		g.setColour(Colours::white);
 		g.drawRoundedRectangle(0.0f, 0.0f, (float)button.getWidth(), (float)button.getHeight(), 4.0f, 1.0f);
 	}
 
@@ -1660,10 +1660,36 @@ public:
 		setColour(PopupMenu::highlightedBackgroundColourId, Colour(0x30FFFFFF));
 
 		setColour(PopupMenu::backgroundColourId, Colour(0xFF121212));
-		setColour(PopupMenu::textColourId, Colour(0xFFFFFFFF));
+		setColour(PopupMenu::textColourId, Colours::white);
 
 		setColour(ComboBox::backgroundColourId, Colour(0x00FFFFFF));
-		setColour(ComboBox::textColourId, Colour(0xFFFFFFFF));
+		setColour(ComboBox::textColourId, Colours::white);
+	}
+};
+
+class FileDownloaderLookandFeel : public LookAndFeel_V4
+{
+public:
+	Font getAlertWindowFont() override
+	{
+		return Font("Times New Roman", "Italic", 15.f);
+	}
+
+	Font getAlertWindowMessageFont() override
+	{
+		return Font("Times New Roman", "Italic", 15.f);
+	}
+
+	Font getAlertWindowTitleFont() override
+	{
+		return Font("Times New Roman", "Italic", 20.f);
+	}
+
+	FileDownloaderLookandFeel()
+	{
+		setColour(AlertWindow::backgroundColourId, Colour(0xFF121212));
+		setColour(AlertWindow::textColourId, Colours::white);
+		setColour(AlertWindow::outlineColourId, Colours::white);
 	}
 };
 
