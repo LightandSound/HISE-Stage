@@ -114,6 +114,7 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 	ADD(VoiceAmountMultiplier);
 	ADD(ClearMidiCC);
 	ADD(SampleLocation);
+	ADD(DownloadSamples);
 	ADD(DebugMode);
 	ADD(ScaleFactorList);
 	ADD(UseOpenGL);
@@ -160,12 +161,14 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 	addAndMakeVisible(voiceAmountMultiplier = new ComboBox("Voice Amount"));
 	addAndMakeVisible(clearMidiLearn = new TextButton("Reset Midi Learn"));
 	addAndMakeVisible(relocateButton = new TextButton("Locate Samples"));
+	addAndMakeVisible(downloadSamplesButton = new TextButton("Download Samples"));
 	addAndMakeVisible(debugButton = new TextButton("Toggle Debug Mode"));
 
 	scaleFactorSelector->addListener(this);
 	diskModeSelector->addListener(this);
 	clearMidiLearn->addListener(this);
 	relocateButton->addListener(this);
+	downloadSamplesButton->addListener(this);
 	debugButton->addListener(this);
 	openGLSelector->addListener(this);
 
@@ -182,6 +185,9 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 	relocateButton->setLookAndFeel(&blaf);
 	relocateButton->setColour(TextButton::ColourIds::textColourOffId, Colours::white);
 	relocateButton->setColour(TextButton::ColourIds::textColourOnId, Colours::white);
+	downloadSamplesButton->setLookAndFeel(&blaf);
+	downloadSamplesButton->setColour(TextButton::ColourIds::textColourOffId, Colours::white);
+	downloadSamplesButton->setColour(TextButton::ColourIds::textColourOnId, Colours::white);
 	debugButton->setColour(TextButton::ColourIds::textColourOffId, Colours::white);
 	debugButton->setColour(TextButton::ColourIds::textColourOnId, Colours::white);
 
@@ -214,6 +220,7 @@ CustomSettingsWindow::~CustomSettingsWindow()
 
 	clearMidiLearn->removeListener(this);
 	relocateButton->removeListener(this);
+	downloadSamplesButton->removeListener(this);
 	diskModeSelector->removeListener(this);
 	
 	voiceAmountMultiplier->removeListener(this);
@@ -227,6 +234,7 @@ CustomSettingsWindow::~CustomSettingsWindow()
 	diskModeSelector = nullptr;
 	clearMidiLearn = nullptr;
 	relocateButton = nullptr;
+	downloadSamplesButton = nullptr;
 	debugButton = nullptr;
 	voiceAmountMultiplier = nullptr;
 	openGLSelector = nullptr;
@@ -423,6 +431,10 @@ void CustomSettingsWindow::buttonClicked(Button* b)
 	{
 		mc->getDebugLogger().toggleLogging();
 	}
+	else if (b == downloadSamplesButton)
+	{
+		fd.fileDownloader();
+	}
 }
 
 void CustomSettingsWindow::flipEnablement(AudioDeviceManager* manager, const int row)
@@ -596,6 +608,7 @@ void CustomSettingsWindow::resized()
 	if (isOn(Properties::SampleLocation))
 		y += 40;
 	
+	POSITION_BUTTON(Properties::DownloadSamples, downloadSamplesButton);
 	POSITION_BUTTON(Properties::DebugMode, debugButton);
 }
 
