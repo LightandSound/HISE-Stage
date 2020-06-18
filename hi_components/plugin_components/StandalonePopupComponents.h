@@ -134,6 +134,7 @@ public:
 		if (fc.browseForDirectory())
 		{
 			folder = fc.getResult();
+			FrontendHandler::setSampleLocation(folder);
 
 			if (runThread())
 			{
