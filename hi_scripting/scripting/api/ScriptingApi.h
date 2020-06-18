@@ -311,6 +311,9 @@ public:
         /** launches the given URL in the system's web browser. */
         void openWebsite(String url);
 
+		/** downloaders a set of URLs and unzips any zips */
+		void downloadUrlSet(var& urls);
+
 		/** Creates a list of all available expansions. */
 		var getExpansionList();
 

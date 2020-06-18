@@ -41,29 +41,24 @@ class FileDownloader : public ThreadWithProgressWindow
 public:
 	FileDownloader() : ThreadWithProgressWindow("Downloading...", true, true)
 	{
-		// Sample download locations
-		sampleUrls.add(new URL("https://www.lightandsoundsamples.com/assets/images/lightandsoundpianowhite-4146x1567.jpg"));
-		sampleUrls.add(new URL("https://www.lightandsoundsamples.com/assets/images/retail-boxtransparency-piano2-1466x825.png"));
-		sampleUrls.add(new URL("https://speed.hetzner.de/100MB.bin"));
-
 		getAlertWindow()->setLookAndFeel(&fdlaf);
 	}
 
 	void run()
 	{
 		// Download all the things
-		for (auto i = 0; i < sampleUrls.size(); i++)
+		for (auto i = 0; i < urls.size(); i++)
 		{
 			setProgress(0.0); // reset progress
-			InputStream *in = sampleUrls[i]->createInputStream(false);
+			URL tempUrl = urls[i];
+
+			InputStream *in = tempUrl.createInputStream(false);
 
 			if (in != nullptr)
 			{
-				setStatusMessage("Downloading " + std::to_string(i) + " out of " + std::to_string(sampleUrls.size()) + " files");
+				setStatusMessage("Downloading " + std::to_string(i) + " out of " + std::to_string(urls.size()));
 
-				File newFile = File::getCurrentWorkingDirectory();
-
-				FileOutputStream os(newFile.getChildFile(sampleUrls[i]->getFileName()));
+				FileOutputStream os(folder.getChildFile(tempUrl.getFileName()));
 
 				size = in->getTotalLength();
 
@@ -95,39 +90,32 @@ public:
 		setProgress(1.0);
 	}
 
-	void FileDownloader::fileDownloader()
+	void FileDownloader::fileDownloader(var& links)
 	{
+		urls = links;
+
 		FileChooser fc{ "Select a Download Location" };
 
 		if (fc.browseForDirectory())
 		{
 			folder = fc.getResult();
 
-			if (folder.isDirectory())
+			if (runThread())
 			{
-				FrontendHandler::setSampleLocation(folder); // also set the location to this folder
-
-				folder.setAsCurrentWorkingDirectory();
-
-				if (runThread())
-				{
-				}
-				else
-				{
-				}
 			}
+			else
+			{
+			}
+
 		}
 	}
 
 private:
 	double progress = 0;
 	double size;
-
 	File folder;
+	var urls;
 	FileDownloaderLookandFeel fdlaf;
-
-	// Array of URLs
-	OwnedArray <URL, CriticalSection> sampleUrls;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FileDownloader)
 };
@@ -218,7 +206,6 @@ public:
 		VoiceAmountMultiplier, ///< the max voice amount per sound generator
 		ClearMidiCC, /// removes all MIDI learn information
 		SampleLocation, /// shows the sample location
-		DownloadSamples, // Sample Downloader Button
 		DebugMode, /// toggles the Debug mode
 		ScaleFactorList, ///< the list of scale factors as Array<var> containing doubles.
 		UseOpenGL,
@@ -287,7 +274,6 @@ private:
 	CustomSettingsComboBoxLookandFeel cscblaf;
 
 	MainController* mc;
-	FileDownloader fd;
 
 	ScopedPointer<ComboBox> deviceSelector;
 	ScopedPointer<ComboBox> soundCardSelector;
@@ -301,7 +287,6 @@ private:
 	ScopedPointer<ComboBox> openGLSelector;
 	ScopedPointer<TextButton> clearMidiLearn;
 	ScopedPointer<TextButton> relocateButton;
-	ScopedPointer<TextButton> downloadSamplesButton;
 	ScopedPointer<TextButton> debugButton;
 	
     // Not the smartest solution, but works...

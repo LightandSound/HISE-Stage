@@ -965,6 +965,7 @@ struct ScriptingApi::Engine::Wrapper
 	API_VOID_METHOD_WRAPPER_1(Engine, showMessage);
 	API_VOID_METHOD_WRAPPER_1(Engine, setLowestKeyToDisplay);
     API_VOID_METHOD_WRAPPER_1(Engine, openWebsite);
+	API_VOID_METHOD_WRAPPER_1(Engine, downloadUrlSet);
 	API_VOID_METHOD_WRAPPER_1(Engine, loadNextUserPreset);
 	API_VOID_METHOD_WRAPPER_1(Engine, loadPreviousUserPreset);
 	API_VOID_METHOD_WRAPPER_1(Engine, loadUserPreset);
@@ -1061,6 +1062,7 @@ parentMidiProcessor(dynamic_cast<ScriptBaseMidiProcessor*>(p))
 	ADD_API_METHOD_1(showMessage);
 	ADD_API_METHOD_1(setLowestKeyToDisplay);
     ADD_API_METHOD_1(openWebsite);
+	ADD_API_METHOD_1(downloadUrlSet);
 	ADD_API_METHOD_1(loadNextUserPreset);
 	ADD_API_METHOD_1(loadPreviousUserPreset);
 	ADD_API_METHOD_0(getExpansionList);
@@ -1574,6 +1576,20 @@ void ScriptingApi::Engine::openWebsite(String url)
     }
 
 
+}
+
+void ScriptingApi::Engine::downloadUrlSet(var& urls)
+{
+	if (urls.isArray())
+	{
+		logErrorAndContinue("incoming array, first element: " + urls[0].toString());
+		FileDownloader fd;
+		fd.fileDownloader(urls);
+	}
+	else
+	{
+		reportScriptError("must be var array");
+	}
 }
 
 var ScriptingApi::Engine::getExpansionList()
