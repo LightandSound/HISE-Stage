@@ -36,34 +36,66 @@
 
 namespace hise { using namespace juce;
 
+class URLHolder
+{
+public:
+	URLHolder()
+	{
+	}
+
+	var link;
+
+private:
+};
+
+class URLuser
+{
+public:
+	URLuser()
+	{
+	}
+	void setUrl(var url)
+	{
+		uh->link = url;
+	}
+
+	var getUrl()
+	{
+		return uh->link;
+	}
+
+private:
+	SharedResourcePointer<URLHolder> uh;
+};
+
+
 class FileDownloader : public ThreadWithProgressWindow
 {
 public:
 	FileDownloader() : ThreadWithProgressWindow("Downloading...", true, true)
 	{
-		// Sample download locations
-		sampleUrls.add(new URL("https://www.lightandsoundsamples.com/assets/images/lightandsoundpianowhite-4146x1567.jpg"));
-		sampleUrls.add(new URL("https://www.lightandsoundsamples.com/assets/images/retail-boxtransparency-piano2-1466x825.png"));
-		sampleUrls.add(new URL("https://speed.hetzner.de/100MB.bin"));
-
 		getAlertWindow()->setLookAndFeel(&fdlaf);
 	}
 
+
 	void run()
 	{
+		URLuser uh;
+		urls = uh.getUrl();
+
 		// Download all the things
-		for (auto i = 0; i < sampleUrls.size(); i++)
+		for (auto i = 0; i < urls.size(); i++)
 		{
 			setProgress(0.0); // reset progress
-			InputStream *in = sampleUrls[i]->createInputStream(false);
+			URL tempUrl(urls[i]);
+
+			InputStream *in = tempUrl.createInputStream(false);
 
 			if (in != nullptr)
 			{
-				setStatusMessage("Downloading " + std::to_string(i) + " out of " + std::to_string(sampleUrls.size()) + " files");
+				setStatusMessage("Downloading " + std::to_string(i) + " out of " + std::to_string(urls.size()));
 
-				File newFile = File::getCurrentWorkingDirectory();
-
-				FileOutputStream os(newFile.getChildFile(sampleUrls[i]->getFileName()));
+				FileOutputStream os(folder.getChildFile(tempUrl.getFileName()));
 
 				size = in->getTotalLength();
 
@@ -74,7 +106,7 @@ public:
 						break;
 
 					MemoryBlock mb;
-					int numBytes = in->readIntoMemoryBlock(mb, 1024);
+					int numBytes(in->readIntoMemoryBlock(mb, 1024));
 					progress = size - in->getNumBytesRemaining();
 					if (numBytes > 0)
 					{
@@ -103,19 +135,13 @@ public:
 		{
 			folder = fc.getResult();
 
-			if (folder.isDirectory())
+			if (runThread())
 			{
-				FrontendHandler::setSampleLocation(folder); // also set the location to this folder
-
-				folder.setAsCurrentWorkingDirectory();
-
-				if (runThread())
-				{
-				}
-				else
-				{
-				}
 			}
+			else
+			{
+			}
+
 		}
 	}
 
@@ -124,10 +150,8 @@ private:
 	double size;
 
 	File folder;
+	var urls;
 	FileDownloaderLookandFeel fdlaf;
-
-	// Array of URLs
-	OwnedArray <URL, CriticalSection> sampleUrls;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FileDownloader)
 };

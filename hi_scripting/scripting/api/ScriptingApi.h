@@ -311,6 +311,9 @@ public:
         /** launches the given URL in the system's web browser. */
         void openWebsite(String url);
 
+		/** set the sampleset URLS for the downloader */
+		void setDownloadLinks(var urls);
+
 		/** Creates a list of all available expansions. */
 		var getExpansionList();
 
@@ -459,6 +462,9 @@ public:
 		void redo();
 
 		// ============================================================================================================
+
+		private:
+			URLuser us;
 
 		struct Wrapper;
 

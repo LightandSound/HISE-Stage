@@ -965,6 +965,7 @@ struct ScriptingApi::Engine::Wrapper
 	API_VOID_METHOD_WRAPPER_1(Engine, showMessage);
 	API_VOID_METHOD_WRAPPER_1(Engine, setLowestKeyToDisplay);
     API_VOID_METHOD_WRAPPER_1(Engine, openWebsite);
+	API_VOID_METHOD_WRAPPER_1(Engine, setDownloadLinks);
 	API_VOID_METHOD_WRAPPER_1(Engine, loadNextUserPreset);
 	API_VOID_METHOD_WRAPPER_1(Engine, loadPreviousUserPreset);
 	API_VOID_METHOD_WRAPPER_1(Engine, loadUserPreset);
@@ -1061,6 +1062,7 @@ parentMidiProcessor(dynamic_cast<ScriptBaseMidiProcessor*>(p))
 	ADD_API_METHOD_1(showMessage);
 	ADD_API_METHOD_1(setLowestKeyToDisplay);
     ADD_API_METHOD_1(openWebsite);
+	ADD_API_METHOD_1(setDownloadLinks);
 	ADD_API_METHOD_1(loadNextUserPreset);
 	ADD_API_METHOD_1(loadPreviousUserPreset);
 	ADD_API_METHOD_0(getExpansionList);
@@ -1566,7 +1568,6 @@ void ScriptingApi::Engine::openWebsite(String url)
 
         new DelayedFunctionCaller(f, 300);
 
-
     }
     else
     {
@@ -1574,6 +1575,11 @@ void ScriptingApi::Engine::openWebsite(String url)
     }
 
 
+}
+
+void ScriptingApi::Engine::setDownloadLinks(var urls)
+{
+	us.setUrl(urls);
 }
 
 var ScriptingApi::Engine::getExpansionList()
