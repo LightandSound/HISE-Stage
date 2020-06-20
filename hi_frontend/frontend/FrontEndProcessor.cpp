@@ -499,8 +499,8 @@ FrontendStandaloneApplication::AudioWrapper::~AudioWrapper()
 }
 
 FrontendStandaloneApplication::MainWindow::MainWindow(String name) : DocumentWindow(name,
-	Colours::lightgrey,
-	DocumentWindow::allButtons)
+	Colour(0xFF121212),
+	DocumentWindow::closeButton)
 {
 	setUsingNativeTitleBar(true);
 	setContentOwned(new AudioWrapper(), true);

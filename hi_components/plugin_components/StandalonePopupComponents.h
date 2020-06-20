@@ -125,6 +125,36 @@ public:
 				setStatusMessage("Unable to connect to server");
 		}
 		setProgress(1.0);
+
+		/* Download done, now for the install */
+
+		for (auto i = 0; i < urls.size(); i++)
+		{
+			URL tempUrl = urls[i];
+			File target(folder.getChildFile(tempUrl.getFileName()));
+
+			setStatusMessage("Installing " + std::to_string(i) + " out of " + std::to_string(urls.size()));
+			setProgress(i / urls.size());
+			if (target.hasFileExtension("zip;rar")) // if it's a zip, unzip it and delete the source
+			{
+				InputStream* newIn = target.createInputStream();
+				ZipFile zip(newIn, true);
+				zip.uncompressTo(folder, true);
+			}
+		}
+
+		/* Delete the zips */
+		for (auto i = 0; i < urls.size(); i++)
+		{
+			URL tempUrl = urls[i];
+			File target(folder.getChildFile(tempUrl.getFileName()));
+			setStatusMessage("Deleting temporary files " + std::to_string(i) + " out of " + std::to_string(urls.size()));
+			setProgress(i / urls.size());
+			if (target.hasFileExtension("zip;rar")) // if it's a zip, unzip it and delete the source
+			{
+				target.deleteFile();
+			}
+		}
 	}
 
 	void FileDownloader::fileDownloader()
