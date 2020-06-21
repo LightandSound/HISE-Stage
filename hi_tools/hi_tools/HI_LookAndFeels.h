@@ -1628,7 +1628,7 @@ public:
 	void drawButtonText(Graphics& g, TextButton& b, bool , bool ) override
 	{
 		g.setColour(Colours::white);
-		g.setFont(Font("Times New Roman", "Italic", 15.f));
+		g.setFont(Font("Times New Roman", "Italic", 13.f));
 		g.drawText(b.getButtonText(), b.getLocalBounds().toFloat(), Justification::centred);
 	}
 
@@ -1647,12 +1647,12 @@ class CustomSettingsComboBoxLookandFeel : public LookAndFeel_V4
 public:
 	Font getComboBoxFont(ComboBox& /*box*/) override
 	{
-		return Font("Times New Roman", "Italic", 15.f);
+		return Font("Times New Roman", "Italic", 13.f);
 	}
 
 	Font getPopupMenuFont() override
 	{
-		return Font("Times New Roman", "Italic", 15.f);
+		return Font("Times New Roman", "Italic", 13.f);
 	}
 
 	CustomSettingsComboBoxLookandFeel()
@@ -1672,12 +1672,12 @@ class FileDownloaderLookandFeel : public LookAndFeel_V4
 public:
 	Font getAlertWindowFont() override
 	{
-		return Font("Times New Roman", "Italic", 15.f);
+		return Font("Times New Roman", "Italic", 13.f);
 	}
 
 	Font getAlertWindowMessageFont() override
 	{
-		return Font("Times New Roman", "Italic", 15.f);
+		return Font("Times New Roman", "Italic", 13.f);
 	}
 
 	Font getAlertWindowTitleFont() override
