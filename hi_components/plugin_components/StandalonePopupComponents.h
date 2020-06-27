@@ -168,9 +168,11 @@ public:
 
 			if (runThread())
 			{
+				getAlertWindow()->showMessageBox(AlertWindow::AlertIconType::InfoIcon, "Important", "Installation complete, please restart the plugin or application to continue", "Ok", nullptr);
 			}
 			else
 			{
+				getAlertWindow()->showMessageBox(AlertWindow::AlertIconType::InfoIcon, "Important", "Installation failed", "Ok", nullptr);
 			}
 
 		}
