@@ -440,10 +440,8 @@ void FrontendStandaloneApplication::AudioWrapper::init()
 #if HISE_IOS
 	resized();
 #else
-	float sf = standaloneProcessor->getScaleFactor();
-
-	int newWidth = (int)((float)editor->getWidth()*sf);
-	int newHeight = (int)((float)editor->getHeight() * sf);
+	int newWidth = (int)((float)editor->getWidth());
+	int newHeight = (int)((float)editor->getHeight());
 
 	setSize(newWidth, newHeight);
 #endif

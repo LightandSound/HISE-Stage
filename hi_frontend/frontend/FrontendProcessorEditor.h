@@ -145,7 +145,7 @@ private:
     ScopedPointer<FrontendEditorHolder> container;
     
 	friend class BaseFrontendBar;
-
+	ScaleFactorSetter sfs;
 	ScopedPointer<FloatingTile> rootTile;
 
 	ScopedPointer<DeactiveOverlay> deactiveOverlay;

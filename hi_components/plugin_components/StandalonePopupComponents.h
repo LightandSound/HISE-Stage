@@ -269,14 +269,12 @@ public:
 		BufferSize, ///< the buffer size
 		SampleRate, ///< the sample rate
 		GlobalBPM, ///< the global BPM if you don't want to tempo sync.
-		ScaleFactor, ///< the global scale factor for the UI
 		StreamingMode, ///< Sets the streaming settings
 		VoiceAmountMultiplier, ///< the max voice amount per sound generator
 		ClearMidiCC, /// removes all MIDI learn information
 		SampleLocation, /// shows the sample location
 		DownloadSamples, // Sample Downloader Button
 		DebugMode, /// toggles the Debug mode
-		ScaleFactorList, ///< the list of scale factors as Array<var> containing doubles.
 		UseOpenGL,
 		numProperties
 	};
@@ -321,8 +319,6 @@ public:
 		setSize(320, height);
 	}
 
-	void rebuildScaleFactorList();
-
 	void setFont(Font f)
 	{
 		font = f;
@@ -337,7 +333,6 @@ private:
 	bool properties[(int)Properties::numProperties];
 	Array<Identifier> propIds;
 
-	Array<var> scaleFactorList;
 
 	BlackTextButtonLookAndFeel blaf;
 	CustomSettingsComboBoxLookandFeel cscblaf;
@@ -352,7 +347,6 @@ private:
 	ScopedPointer<ComboBox> sampleRateSelector;
 	ScopedPointer<ComboBox> bpmSelector;
 	ScopedPointer<ComboBox> diskModeSelector;
-	ScopedPointer<ComboBox> scaleFactorSelector;
 	ScopedPointer<ComboBox> voiceAmountMultiplier;
 	ScopedPointer<ComboBox> openGLSelector;
 	ScopedPointer<TextButton> clearMidiLearn;

@@ -94,7 +94,6 @@ public:
 		BufferSize, ///< the buffer size (ideally only power of twos)
 		SampleRate, ///< the supported sample rates
 		GlobalBPM, ///< the global BPM in standalone apps (replaces the sync to host tempo)
-		ScaleFactor, ///< a global UI scale factor that is applied to the interface
 		GraphicRendering, ///< switch between software / Open GL rendering
 		StreamingMode, ///< allows to double the preload size for old hard disks
 		SustainCC, ///< the CC number for the sustain pedal (useful if you want to remap this function)
@@ -103,7 +102,6 @@ public:
 		SampleLocation, ///< shows the location of the sample folder and a button to relocate
 		DownloadSamples, // Sample Downloader Button
 		DebugMode, ///< enables Debug mode which creates a useful log file for bug chasing
-		ScaleFactorList, ///< an array containing all available zoom factors (eg. `[0.5, 1.5, 1.25]` for 50%, 100%, 125%)
 		numProperties
 	};
 

@@ -76,14 +76,11 @@ var CustomSettingsWindowPanel::toDynamicObject() const
 	SET(CustomSettingsWindow::Properties::SampleRate);
 	SET(CustomSettingsWindow::Properties::GlobalBPM);
 	SET(CustomSettingsWindow::Properties::StreamingMode);
-	SET(CustomSettingsWindow::Properties::ScaleFactor);
 	SET(CustomSettingsWindow::Properties::VoiceAmountMultiplier);
 	SET(CustomSettingsWindow::Properties::ClearMidiCC);
 	SET(CustomSettingsWindow::Properties::SampleLocation);
 	SET(CustomSettingsWindow::Properties::DownloadSamples);
 	SET(CustomSettingsWindow::Properties::DebugMode);
-
-	storePropertyInObject(obj, (int)CustomSettingsWindow::Properties::ScaleFactorList, var(window->scaleFactorList));
 
 	return obj;
 }
@@ -103,7 +100,6 @@ void CustomSettingsWindowPanel::fromDynamicObject(const var& object)
 	SET(CustomSettingsWindow::Properties::SampleRate);
 	SET(CustomSettingsWindow::Properties::GlobalBPM);
 	SET(CustomSettingsWindow::Properties::StreamingMode);
-	SET(CustomSettingsWindow::Properties::ScaleFactor);
 	SET(CustomSettingsWindow::Properties::VoiceAmountMultiplier);
 	SET(CustomSettingsWindow::Properties::ClearMidiCC);
 	SET(CustomSettingsWindow::Properties::SampleLocation);
@@ -115,21 +111,6 @@ void CustomSettingsWindowPanel::fromDynamicObject(const var& object)
 	window->setColour(CustomSettingsWindow::ColourIds::textColour, findPanelColour(FloatingTileContent::PanelColourId::textColour));
 	window->setColour(CustomSettingsWindow::ColourIds::backgroundColour, findPanelColour(FloatingTileContent::PanelColourId::bgColour));
 	window->setFont(getFont());
-
-
-	auto list = getPropertyWithDefault(object, (int)CustomSettingsWindow::Properties::ScaleFactorList);
-
-	if (list.isArray())
-	{
-		window->scaleFactorList.clear();
-
-		for (int i = 0; i < list.size(); i++)
-			window->scaleFactorList.add(list[i]);
-
-
-
-		window->rebuildScaleFactorList();
-	}
 }
 
 #undef SET
@@ -148,13 +129,11 @@ Identifier CustomSettingsWindowPanel::getDefaultablePropertyId(int index) const
 	SET(CustomSettingsWindow::Properties::SampleRate);
 	SET(CustomSettingsWindow::Properties::GlobalBPM);
 	SET(CustomSettingsWindow::Properties::StreamingMode);
-	SET(CustomSettingsWindow::Properties::ScaleFactor);
 	SET(CustomSettingsWindow::Properties::VoiceAmountMultiplier);
 	SET(CustomSettingsWindow::Properties::ClearMidiCC);
 	SET(CustomSettingsWindow::Properties::SampleLocation);
 	SET(CustomSettingsWindow::Properties::DownloadSamples);
 	SET(CustomSettingsWindow::Properties::DebugMode);
-	SET(CustomSettingsWindow::Properties::ScaleFactorList);
 
 
 	jassertfalse;
@@ -176,14 +155,11 @@ var CustomSettingsWindowPanel::getDefaultProperty(int index) const
 	SET(CustomSettingsWindow::Properties::SampleRate);
 	SET(CustomSettingsWindow::Properties::GlobalBPM);
 	SET(CustomSettingsWindow::Properties::StreamingMode);
-	SET(CustomSettingsWindow::Properties::ScaleFactor);
 	SET(CustomSettingsWindow::Properties::VoiceAmountMultiplier);
 	SET(CustomSettingsWindow::Properties::ClearMidiCC);
 	SET(CustomSettingsWindow::Properties::SampleLocation);
 	SET(CustomSettingsWindow::Properties::DownloadSamples);
 	SET(CustomSettingsWindow::Properties::DebugMode);
-
-	if (index == (int)CustomSettingsWindow::Properties::ScaleFactorList) return var({ var(0.5), var(0.75), var(1.0), var(1.25), var(1.5), var(2.0) });
 
 	jassertfalse;
 	return{};

@@ -13,6 +13,44 @@
 
 namespace hise { using namespace juce;
 
+class ScaleFactorData
+{
+public:
+	ScaleFactorData()
+	{
+		File scaleData = NativeFileHandler::getAppDataDirectory().getChildFile("GeneralSettings.xml");
+		ScopedPointer<XmlElement> scaleSetting = XmlDocument::parse(scaleData);
+		scaleFactor = scaleSetting->getDoubleAttribute("SCALE_FACTOR", 1.0);
+
+		if (scaleFactor > 2 || scaleFactor < 0.5)
+			scaleFactor = 1.0f;
+	}
+
+	float scaleFactor;
+
+private:
+};
+
+class ScaleFactorSetter
+{
+public:
+	ScaleFactorSetter()
+	{
+	}
+	void setScale(float scale)
+	{
+		sfd->scaleFactor = scale;
+	}
+
+	float getScale()
+	{
+		return sfd->scaleFactor;
+	}
+
+private:
+	SharedResourcePointer<ScaleFactorData> sfd;
+};
+
 class ToggleButtonList;
 
 
@@ -134,6 +172,7 @@ private:
 	ScopedPointer<HiseSettings::Data> dataObject;
 
 	double scaleFactor = 1.0;
+	ScaleFactorSetter sfs;
 
 	Array<WeakReference<ScaleFactorListener>> listeners;
 
@@ -274,7 +313,6 @@ private:
 };
 
 
-
 class StandaloneProcessor
 {
 public:
@@ -302,12 +340,12 @@ public:
 		return wrappedProcessor->createEditor();
 	}
 
-	float getScaleFactor() const 
-	{ 
+	float getScaleFactor() 
+	{
 #if USE_BACKEND
 		return 1.0;
 #else
-		return scaleFactor; 
+		return sfs.getScale();
 #endif
 	}
 
@@ -318,10 +356,10 @@ private:
 	ScopedPointer<AudioProcessor> wrappedProcessor;
 	ScopedPointer<AudioDeviceManager> deviceManager;
 	ScopedPointer<AudioProcessorPlayer> callback;
-
+	ScaleFactorSetter sfs;
     ScopedPointer<MidiInput> virtualMidiPort;
     
-	float scaleFactor = 1.0;
+	float scaleFactor = 1.0f;
 
 };
 

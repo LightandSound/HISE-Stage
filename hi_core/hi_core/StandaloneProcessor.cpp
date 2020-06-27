@@ -387,7 +387,7 @@ void GlobalSettingManager::saveSettingsAsXml()
 	ScopedPointer<XmlElement> settings = new XmlElement("GLOBAL_SETTINGS");
 
 	settings->setAttribute("DISK_MODE", diskMode);
-	settings->setAttribute("SCALE_FACTOR", scaleFactor);
+	settings->setAttribute("SCALE_FACTOR", sfs.getScale());
 	settings->setAttribute("VOICE_AMOUNT_MULTIPLIER", voiceAmountMultiplier);
 
 #if IS_STANDALONE_APP

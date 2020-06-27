@@ -109,14 +109,12 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 	ADD(BufferSize);
 	ADD(SampleRate);
 	ADD(GlobalBPM);
-	ADD(ScaleFactor);
 	ADD(StreamingMode);
 	ADD(VoiceAmountMultiplier);
 	ADD(ClearMidiCC);
 	ADD(SampleLocation);
 	ADD(DownloadSamples);
 	ADD(DebugMode);
-	ADD(ScaleFactorList);
 	ADD(UseOpenGL);
     
 	setColour(ColourIds::textColour, Colours::white);
@@ -129,8 +127,6 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 #if !HISE_USE_OPENGL_FOR_PLUGIN
 	properties[(int)Properties::UseOpenGL] = false;
 #endif
-
-	scaleFactorList = { var(0.5), var(0.75), var(1.0), var(1.25), var(1.5), var(2.0) };
 
     addAndMakeVisible(deviceSelector = new ComboBox("Driver"));
     addAndMakeVisible(soundCardSelector = new ComboBox("Device"));
@@ -156,7 +152,6 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 	bpmSelector->setLookAndFeel(&cscblaf);
 
 	addAndMakeVisible(openGLSelector = new ComboBox("Open GL"));
-	addAndMakeVisible(scaleFactorSelector = new ComboBox("Scale Factor"));
 	addAndMakeVisible(diskModeSelector = new ComboBox("Hard Disk"));
 	addAndMakeVisible(voiceAmountMultiplier = new ComboBox("Voice Amount"));
 	addAndMakeVisible(clearMidiLearn = new TextButton("Reset Midi Learn"));
@@ -164,7 +159,6 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 	addAndMakeVisible(downloadSamplesButton = new TextButton("Download Samples"));
 	addAndMakeVisible(debugButton = new TextButton("Toggle Debug Mode"));
 
-	scaleFactorSelector->addListener(this);
 	diskModeSelector->addListener(this);
 	clearMidiLearn->addListener(this);
 	relocateButton->addListener(this);
@@ -175,7 +169,6 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 	voiceAmountMultiplier->addListener(this);
 	voiceAmountMultiplier->setLookAndFeel(&cscblaf);
 
-	scaleFactorSelector->setLookAndFeel(&cscblaf);
 	diskModeSelector->setLookAndFeel(&cscblaf);
 	clearMidiLearn->setLookAndFeel(&blaf);
 	
@@ -193,7 +186,6 @@ CustomSettingsWindow::CustomSettingsWindow(MainController* mc_, bool buildMenus)
 
 	if (HiseDeviceSimulator::isMobileDevice())
 	{
-		setProperty(Properties::ScaleFactor, false);
 		setProperty(Properties::StreamingMode, false);
 		setProperty(Properties::SampleLocation, false);
 	}
@@ -225,7 +217,6 @@ CustomSettingsWindow::~CustomSettingsWindow()
 	
 	voiceAmountMultiplier->removeListener(this);
 
-	scaleFactorSelector->removeListener(this);
 	debugButton->removeListener(this);
 
 	deviceSelector = nullptr;
@@ -348,8 +339,6 @@ void CustomSettingsWindow::rebuildMenus(bool rebuildDeviceTypes, bool rebuildDev
         }
     }
     
-	rebuildScaleFactorList();
-    
 	diskModeSelector->clear(dontSendNotification);
 	diskModeSelector->addItem("Fast - SSD", 1);
 	diskModeSelector->addItem("Slow - HDD", 2);
@@ -368,22 +357,6 @@ void CustomSettingsWindow::rebuildMenus(bool rebuildDeviceTypes, bool rebuildDev
 	bpmSelector->setSelectedId(driver->globalBPM > 0.0 ? (int)driver->globalBPM : 1, dontSendNotification);
 
 	diskModeSelector->setSelectedItemIndex(driver->diskMode, dontSendNotification);
-}
-
-
-void CustomSettingsWindow::rebuildScaleFactorList()
-{
-	AudioProcessorDriver* driver = dynamic_cast<AudioProcessorDriver*>(mc);
-
-	scaleFactorSelector->clear(dontSendNotification);
-
-	for (int i = 0; i < scaleFactorList.size(); i++)
-	{
-		auto scaleFactor = (double)scaleFactorList[i];
-		scaleFactorSelector->addItem(String((int)(scaleFactor*100.0)) + "%", i + 1);
-	}
-
-	scaleFactorSelector->setSelectedItemIndex(scaleFactorList.indexOf(driver->getGlobalScaleFactor()), dontSendNotification);
 }
 
 
@@ -507,22 +480,6 @@ void CustomSettingsWindow::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
 		mc->rebuildVoiceLimits();
 		
 	}
-	else if (comboBoxThatHasChanged == scaleFactorSelector)
-	{
-		double scaleFactor = scaleFactorList[scaleFactorSelector->getSelectedItemIndex()];
-
-		driver->setGlobalScaleFactor(scaleFactor, sendNotification);
-
-#if USE_FRONTEND
-
-		auto fpe = findParentComponentOfClass<FrontendProcessorEditor>();
-
-		if (fpe != nullptr)
-		{
-			fpe->setGlobalScaleFactor((float)scaleFactor);
-		}
-#endif
-	}
 	else if (comboBoxThatHasChanged == bpmSelector)
 	{
 		int selectedId = bpmSelector->getSelectedId();
@@ -556,7 +513,6 @@ void CustomSettingsWindow::paint(Graphics& g)
 	DRAW_LABEL(Properties::BufferSize, "Buffer Size");
 	DRAW_LABEL(Properties::SampleRate, "Sample Rate");
 	DRAW_LABEL(Properties::GlobalBPM, "Global BPM");
-	DRAW_LABEL(Properties::ScaleFactor, "UI Zoom Factor");
 	DRAW_LABEL(Properties::UseOpenGL, "Use OpenGL");
 	DRAW_LABEL(Properties::StreamingMode, "Streaming Mode");
 	DRAW_LABEL(Properties::VoiceAmountMultiplier, "Max Voices");
@@ -597,7 +553,6 @@ void CustomSettingsWindow::resized()
 	POSITION_COMBOBOX(Properties::BufferSize, bufferSelector);
 	POSITION_COMBOBOX(Properties::SampleRate, sampleRateSelector);
 	POSITION_COMBOBOX(Properties::GlobalBPM, bpmSelector);
-	POSITION_COMBOBOX(Properties::ScaleFactor, scaleFactorSelector);
 	POSITION_COMBOBOX(Properties::UseOpenGL, openGLSelector);
 	POSITION_COMBOBOX(Properties::StreamingMode, diskModeSelector);
 	POSITION_COMBOBOX(Properties::VoiceAmountMultiplier, voiceAmountMultiplier);

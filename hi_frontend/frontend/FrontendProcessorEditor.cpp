@@ -166,7 +166,7 @@ AudioProcessorEditor(fp)
 	}
 	else
 	{
-        //setGlobalScaleFactor((float)fp->getGlobalScaleFactor());
+        setGlobalScaleFactor((float)sfs.getScale());
 	}
 #endif
         
@@ -244,9 +244,10 @@ void FrontendProcessorEditor::resized()
 
 	if (pC != nullptr)
 	{
-		sF = (float)getWidth() / originalSizeX;
+		sF = (float)getHeight() / originalSizeY;
 		setGlobalScaleFactor(sF);
-		setResizeLimits(originalSizeX / 2, originalSizeY * sF, originalSizeX * 2, originalSizeY * sF); // lock the height
+		setResizeLimits(originalSizeX * sF, originalSizeY / 2, originalSizeX * sF, originalSizeY * 2); // lock the height
+		sfs.setScale(sF);
 	}
 
 #if HISE_IOS
